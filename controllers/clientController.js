@@ -45,7 +45,59 @@ const login = async (phone, password) => {
   return { success: true, token: token };
 };
 
+const getClinetBalance = async (req, res) =>{
+   try {
+      const id = parseInt(req.params.id);
+  const results= await db.query(` SELECT id, name, balance FROM client WHERE id = ${id}`);
+ if ( results.rows.length==0){
+    res.status(404).send({ message: "client not found" });
+  }else{
+    res.send(results.rows[0]);
+  }
+  } catch (error) {
+      console.error(error);
+    res.status(500).send({ message: "Server error" });
+  }
+
+}
+
+const getReadyCards = async(req, res)=>{
+    try {
+    const query = `
+      SELECT 
+        p.id AS "planId",
+        p.name AS "planName",
+        COUNT(s.id) AS "available"
+
+
+      FROM stock s
+      JOIN plan p ON s.plan_id = p.id
+      WHERE s.state = 'ready'
+      GROUP BY p.id, p.name
+      ORDER BY p.id;
+    `;
+    const result = await db.query(query);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  
+}
+
+
+
+
+
+
+
+// app.get("/client/:id/balance", async (req, res) => {
+ 
+// });
+
 module.exports = {
   register,
   login,
+  getClinetBalance,
+  getReadyCards
 };

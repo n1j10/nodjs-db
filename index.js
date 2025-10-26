@@ -27,7 +27,8 @@ process.on("SIGINT", async () => {
 // 1️⃣ GET /client/:id/balance
 //    ➤ Purpose: Return the balance of a specific client.
 //    ➤ Response: { id, name, balance }
-//
+
+
 // 2️⃣ GET /stock/available
 //    ➤ Purpose: Return the number of “ready” cards for each plan.
 //    ➤ Response Example:
@@ -35,7 +36,15 @@ process.on("SIGINT", async () => {
 //          { planId: 1, planName: "Zain 5K", available: 25 },
 //          { planId: 2, planName: "Google Play 10$", available: 10 }
 //        ]
-//
+
+// ✅ GET /stock/available
+// ➤ Purpose: Return the number of “ready” cards for each plan.
+// ➤ Response Example:
+// [
+//   { planId: 1, planName: "Zain 5K", available: 25 },
+//   { planId: 2, planName: "Google Play 10$", available: 10 }
+// ]
+
 // 3️⃣ GET /stock/sold
 //    ➤ Purpose: Count sold cards for each plan.
 //
@@ -59,3 +68,28 @@ process.on("SIGINT", async () => {
 //    ➤ Purpose: Insert multiple card codes for one plan.
 //    ➤ Body: { planId, codes: ["...", "..."] }
 //    ➤ Response: { inserted: N }
+
+
+
+
+
+
+//+++++++++++ other way for first endpoint without id by suing jwt token  ++++++++
+
+// app.get("/client/balance", authenticateToken, async (req, res) => {
+//   try {
+//     const id = req.user.id; // from decoded JWT or session
+
+//     const results = await db.query(`SELECT id, name, balance FROM client WHERE id = $1`, [id]);
+
+//     if (results.rows.length === 0) {
+//       return res.status(404).send({ message: "Client not found" });
+//     }
+
+//     res.send(results.rows[0]);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ message: "Server error" });
+//   }
+// });
+
