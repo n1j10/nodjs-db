@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { register, login , getClinetBalance, getReadyCards } = require("../controllers/clientController");
+const { register, login , getClinetBalance, getSoldCards } = require("../controllers/clientController");
 
 router.post("/register", async (req, res) => {
   try {
@@ -32,7 +32,8 @@ router.post("/login", async (req, res) => {
 router.get("/client/:id/balance", getClinetBalance);
 
 
-router.get("/stock/available", getReadyCards);
+router.get("/stock/sold", getSoldCards);
+
 
 
 

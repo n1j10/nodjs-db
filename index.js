@@ -5,6 +5,8 @@ const PORT = 3000;
 const db = require("./db");
 const plansRoutes = require("./routes/plan.route");
 const clientsRoutes = require("./routes/client.route");
+const stockRoutes = require("./routes/stock.route");
+
 
 app.use(express.json());
 
@@ -14,6 +16,8 @@ app.get("/", async (req, res) => {
 
 app.use("/plans", plansRoutes);
 app.use("/client", clientsRoutes);
+app.use("/stock", stockRoutes);
+
 
 app.listen(PORT, () => {
   console.log("http://localhost:3000");
@@ -36,7 +40,6 @@ process.on("SIGINT", async () => {
 //          { planId: 1, planName: "Zain 5K", available: 25 },
 //          { planId: 2, planName: "Google Play 10$", available: 10 }
 //        ]
-
 // ✅ GET /stock/available
 // ➤ Purpose: Return the number of “ready” cards for each plan.
 // ➤ Response Example:
@@ -56,6 +59,9 @@ process.on("SIGINT", async () => {
 //    ➤ Response Example:
 //        { planId, planName, ready, sold, error }
 //
+
+
+
 // 6️⃣ POST /client/:id/topup
 //    ➤ Purpose: Add funds to a client’s wallet.
 //    ➤ Body: { amount }

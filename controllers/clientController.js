@@ -61,7 +61,9 @@ const getClinetBalance = async (req, res) =>{
 
 }
 
-const getReadyCards = async(req, res)=>{
+
+
+const getSoldCards = async(req, res)=>{
     try {
     const query = `
       SELECT 
@@ -90,7 +92,6 @@ const getReadyCards = async(req, res)=>{
 
 
 
-
 // app.get("/client/:id/balance", async (req, res) => {
  
 // });
@@ -99,5 +100,5 @@ module.exports = {
   register,
   login,
   getClinetBalance,
-  getReadyCards
+  getSoldCards
 };
