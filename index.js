@@ -59,3 +59,4 @@ process.on("SIGINT", async () => {
 //    ➤ Purpose: Insert multiple card codes for one plan.
 //    ➤ Body: { planId, codes: ["...", "..."] }
 //    ➤ Response: { inserted: N }
+git push origin --delete branch-name
