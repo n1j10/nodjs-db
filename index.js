@@ -6,17 +6,21 @@ const db = require("./db");
 const plansRoutes = require("./routes/plan.route");
 const clientsRoutes = require("./routes/client.route");
 const stockRoutes = require("./routes/stock.route");
+const invoiceRoutes = require("./routes/invoice.route");
+
 
 
 app.use(express.json());
 
-app.get("/", async (req, res) => {
-  res.send("Server is live ...");
-});
+// app.get("/", async (req, res) => {
+//   res.send("Server is live ...");
+// });
 
-app.use("/plans", plansRoutes);
+app.use("/plan", plansRoutes);
 app.use("/client", clientsRoutes);
 app.use("/stock", stockRoutes);
+app.use("/invoice", invoiceRoutes);
+
 
 
 app.listen(PORT, () => {
@@ -58,18 +62,18 @@ process.on("SIGINT", async () => {
 //    ➤ Purpose: Show stock summary for a single plan (ready/sold/error counts).
 //    ➤ Response Example:
 //        { planId, planName, ready, sold, error }
-//
-
-
 
 // 6️⃣ POST /client/:id/topup
 //    ➤ Purpose: Add funds to a client’s wallet.
 //    ➤ Body: { amount }
 //    ➤ Response: { id, oldBalance, newBalance }
+
 //
 // 7️⃣ GET /invoice/client/:id
 //    ➤ Purpose: Return recent invoices for one client (limit 50).
 //
+
+
 // 8️⃣ POST /stock/batch
 //    ➤ Purpose: Insert multiple card codes for one plan.
 //    ➤ Body: { planId, codes: ["...", "..."] }
@@ -77,6 +81,24 @@ process.on("SIGINT", async () => {
 
 
 
+
+
+
+
+
+
+
+
+// app.get("/plans/:id/stock", async (req, res) => {
+//   try {
+//     const planId = Number(req.params.id);
+//     const results = await db.query( `SELECT * FROM stock WHERE plan_id = ${planId}`, );
+      
+//     res.send(results.rows);
+//   } catch (error) {
+    
+//   }
+// })
 
 
 

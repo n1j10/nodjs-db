@@ -63,28 +63,32 @@ const getClinetBalance = async (req, res) =>{
 
 
 
-const getSoldCards = async(req, res)=>{
-    try {
-    const query = `
-      SELECT 
-        p.id AS "planId",
-        p.name AS "planName",
-        COUNT(s.id) AS "available"
+// need to be fix it +++++++++++++++++++++++++++++
+const fundsClientWallet = async (req, res) => {
+    const clientId = req.params.id;
+  const { amount } = req.body;
 
-
-      FROM stock s
-      JOIN plan p ON s.plan_id = p.id
-      WHERE s.state = 'ready'
-      GROUP BY p.id, p.name
-      ORDER BY p.id;
-    `;
-    const result = await db.query(query);
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
+  if (!amount || amount <= 0) {
+    return res.status(400).json({ error: "Invalid amount" });
   }
-  
+// [clientId]
+  try {
+    const client = await db.query(`SELECT balance FROM client WHERE id = ${clientId} `, );
+    if (client.rowCount === 0) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    const oldBalance = parseFloat(client.rows[0].balance);
+    const newBalance = oldBalance + parseFloat(amount);
+
+    await db.query("UPDATE client SET balance = $1 WHERE id = $2", [newBalance, clientId]);
+
+    res.json({ id: clientId, oldBalance, newBalance });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+
+  }
 }
 
 
@@ -92,13 +96,11 @@ const getSoldCards = async(req, res)=>{
 
 
 
-// app.get("/client/:id/balance", async (req, res) => {
- 
-// });
+
+
 
 module.exports = {
   register,
   login,
-  getClinetBalance,
-  getSoldCards
+  getClinetBalance,fundsClientWallet
 };
